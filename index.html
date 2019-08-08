@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <!-- Required meta tags -->
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <!--link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"-->
+    <!--link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.css"-->
+    <link rel="stylesheet" href="./resources/bootstrap-4.3.1/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="./resources/fontawesome-free-5.9.0-web/css/fontawesome.css">
+    <link rel="stylesheet" href="./resources/fontawesome-free-5.9.0-desktop/otfs/Font Awesome 5 Free-Solid-900.otf">
+
+    <!--script src="https://kit.fontawesome.com/fb02c6750e.js"></script-->
+    <script ="./mascara.js" type = "text/javascript" src =  "../MascaraJS-master/mascara.js"></script> 
+    <link rel="stylesheet" href="./style.css">
+    <title>Software aquisição de dados</title>
+  </head>
+  <body style="overflow-x: hidden">
+    <container class="container text-center" >
+      <row class="row" style="padding-left: 10px">
+          <div class="col-md-3 col-sm-6 col-xs-12" >
+            <div class="info-box">
+              <span class="info-box-icon bg-aqua"><!--i class="fa fa-tint"></i--> <img src="./resources/fontawesome-free-5.9.0-desktop/Icones/tint.png" class="tint"> </span>
+  
+              <div class="info-box-content">
+                <span class="info-box-text"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Ksat (m/s) </font></font></span>
+                <span class="info-box-number"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;" id="valorKsatID">--</font></font></span>
+              </div>
+              <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+          </div>
+          <div class="col-md-3 col-sm-3">
+              <button id="btnICD" class="btn btn-info btnIMG" data-toggle="tooltip" title="Clique no botão para inicar a coleta de dados!"><!--i class="fa fa-1x fa-play-circle"></i--><span style="height: 100px;"><img class="percentIMG" src="./resources/fontawesome-free-5.9.0-desktop/Icones/play-circle.png" class="tint"> </span> START</button>
+          </div>
+          <div class="col-md-2 col-sm-2">
+              <button id="btnEE" class="btn btn-info btnIMG" data-toggle="tooltip" title="Clique no botão para exportar os dados coletados em formato *xls"><!--i class="fa fa-file-excel"></i--><img class="percentIMG" src="./resources/fontawesome-free-5.9.0-desktop/Icones/file-excel.png" > EXPORT </button>
+          </div>
+          <div class="col-md-3 col-sm-3">
+              <button id="btnECD" class="btn btn-info btnIMG" data-toggle="tooltip" title="Clique no botão para interromper a coleta de dados"><!--i class="fa fa-1x fa-stop-circle"></i--><img class="percentIMG" src="./resources/fontawesome-free-5.9.0-desktop/Icones/stop-circle.png"> STOP</button>
+          </div>
+          <div class="col-md-2 col-sm-2">
+              <button id="btnCS" class="btn btn-info btnIMG" data-toggle="tooltip" title="Clique no botão para caibrar os sensores" hidden><i class="fa fa-1x fa-play-circle"></i> CALIBRAR SENSORES</button>
+          </div>
+      </row>
+      <div id="alertMSG" class="alert alert-success" role="alert" style="margin: 20px; display: none"> </div>
+      <div id="alertMSGExcel" class="alert alert-success" role="alert" style="margin: 20px; display: none"> </div>
+
+        <div id="cardContent" class="col-md-8" style="display: none">
+            <div class="card" style="margin: 20px">
+              <div class="card-body">
+               
+                  <div class="form-inline">
+                      <label class="sr-only" for="enderecoIp">Endereço IP</label>
+                      <input type="text" value="192.168.2.105" class="form-control mb-2 mr-sm-2" id="enderecoIp" placeholder="###.###.#.###" onkeyup="mascara('###.###.#.###',this,event,true)" maxlength="13" required data-toggle="tooltip" data-placement="top" title="Insira o endereço IP">
+                    <div class="input-group mb-2 mr-sm-2">
+                        
+                      <input value="2" type="text" class="form-control" id="tempoatualizacao" placeholder="Tempo de atualização" required>
+                      <div class="input-group-prepend">
+                        <div class="input-group-text">s</div>
+                      </div>
+                    </div>
+                    
+                    <input type="text" value="dados" class="form-control mb-2 mr-sm-2" id="nomeArquivo" placeholder="Nome do arquivo" required> 
+                    <button id="btnGuardar" type="text" class="btn btn-info mb-2">Save</button>
+                  </div>
+              </div>
+            </div>     
+        </div>
+          <div class="col-md-1"></div>
+          <div class="col-md-10 col-sm-10 " style="max-height: 300px;overflow-y: scroll;padding-top: 20px; ">
+              <table class="table table-striped" >
+                  <thead>
+                    <tr>
+                      <th scope="col">Sensor 1</th>
+                      <th scope="col">Sensor 2</th>
+                      <th scope="col">Time</th>
+                      <th scope="col">Ksat (m/s)</th>
+                      <th scope="col">Ksat (mm/h)</th>
+                    </tr>
+                  </thead>
+                  <tbody id="tableBodyId" >
+                  </tbody>
+                </table>
+          </div>
+          <div class="col-md-1"></div>
+          <div class="row" hidden>
+            <div class="col-md-2 offset-md-9" aria-label="Page navigation example">
+                <ul class="pagination">
+                    <li class="page-item"><a class="page-link" href="#">Anterior</a></li>
+                    <li class="page-item"><a class="page-link" href="#">1</a></li>
+                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                    <li class="page-item"><a class="page-link" href="#">Próximo</a></li>
+                </ul>
+            </div>
+          </div>
+      </row>
+    </container>
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+                  <form>
+                      <div class="form-group">
+                          <label for="exampleFormControlInput1">Nome do arquivo</label>
+                          <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
+                      </div>            
+                  </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary">Salvar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery 
+      
+    first, then Popper.js, then Bootstrap JS -->
+    <!--script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script-->
+    <!--script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script-->
+    <!--script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script-->
+    <link rel="stylesheet" href="./resources/Jquery-4.4.1/jquery-3.4.1.js">
+    <link rel="stylesheet" href="./resources/bootstrap-4.3.1/dist/js/bootstrap.min.js">
+    <script type="text/javascript" src="./controller/index.js"></script>
+
+    </body>
+</html>
