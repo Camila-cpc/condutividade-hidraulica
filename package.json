@@ -10,7 +10,7 @@
     "axios": "^0.19.0",
     "csv-writer": "^1.4.0",
     "electro": "^2.1.1",
-    "electron": "^5.0.5",
+    "electron": "^7.2.4",
     "electron-packager": "^14.0.4",
     "install": "^0.13.0",
     "jquery": "^3.4.1",
